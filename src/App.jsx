@@ -4,6 +4,8 @@ import NavBar from './components/NavBar/NavBar.jsx'
 import Dashboard from './components/Dashboard/Dashboard.jsx'
 import Landing from './components/Landing/Landing.jsx'
 import SignupForm from './components/SignupForm/SignupForm.jsx'
+import SigninForm from './components/SigninForm/SigninForm.jsx'
+
 
 
 
@@ -15,11 +17,12 @@ const App = () => {
       <NavBar user={user} />
       <Routes>
         {user ? (
-        <Route path='/' element={<Dashboard user={user} />}/>
+        <Route path='/' element={<Dashboard user={user} />} />
       ) : (
         <Route path='/' element={<Landing />}/>
       )}
-      <Route path='/signup' element={<SignupForm setUser={setUser}/>}/>
+      <Route path='/signup' element={<SignupForm setUser={setUser}/>} />
+      <Route path='/signin' element={<SigninForm setUser={setUser}/>}/>
       </Routes>
     </>
   )

@@ -9,8 +9,6 @@ const signup = async (formData) => {
         body: JSON.stringify(formData)
       })
 
-      console.log('Response:', res)
-
       //covert response to json
       const json = await res.json()
       console.log(json)
@@ -27,6 +25,39 @@ const signup = async (formData) => {
   }
 }
 
+const signin = async (user) => {
+  try{
+  //fetch to POST signin route
+  const res = await fetch(`${BACKEND_URL}/users/signin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify(user)
+    })
+
+    //covert response to json
+    const json = await res.json()
+    console.log(json)
+
+    //check for errors from server
+    if(json.err) {
+      throw new Error(json.err)
+    }
+    // if theres a token, split it and grab the payload only!
+    if (json.token) {
+      const user = JSON.parse(atob(json.token.split('.')[1]));
+      console.log(user)
+      return user
+    }
+    //if no errors, we have data to return!
+    return json
+  }catch(err) {
+    console.log(err)
+    throw err
+  }
+}
+
+
 export {
   signup,
+  signin,
 }
