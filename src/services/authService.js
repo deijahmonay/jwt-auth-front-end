@@ -1,14 +1,15 @@
-const BACKEND_URL = 'http://localhost:3000'
+const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL;
 
 const signup = async (formData) => {
   try{
     //fetch to POST signup route
-    const res = await fetch(`${BACKEND_URL}/users/
-      signup`, {
+    const res = await fetch(`${BACKEND_URL}/users/signup`, {
         method: 'POST',
-        header: { 'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json'},
         body: JSON.stringify(formData)
       })
+
+      console.log('Response:', res)
 
       //covert response to json
       const json = await res.json()
