@@ -17,7 +17,10 @@ const signup = async (formData) => {
       if(json.err) {
         throw new Error(json.err)
       }
-      //if no errors, we have data to return!
+      if (json.token) {
+        //localStorage.setItem('name-of-item', 'value-of-item')<-- saves to local storage
+        localStorage.setItem('token', json.token)
+      }
       return json
   }catch(err) {
     console.log(err)
@@ -44,6 +47,8 @@ const signin = async (user) => {
     }
     // if theres a token, split it and grab the payload only!
     if (json.token) {
+      //localStorage.setItem('name-of-item', 'value-of-item')<-- saves to local storage
+      localStorage.setItem('token', json.token)
       const user = JSON.parse(atob(json.token.split('.')[1]));
       console.log(user)
       return user
@@ -56,8 +61,22 @@ const signin = async (user) => {
   }
 }
 
+const getUser = () => {
+  //localStorage.getItem('name-of-item)
+  const token = localStorage.getItem('token')
+  if(!token) return null
+  const user = JSON.parse(atob(token.split('.')[1]))
+  return user
+}
+
+const signout = () => {
+  //localStorage.removeItem('name-of-item)
+  localStorage.removeItem('token')
+}
 
 export {
   signup,
   signin,
+  getUser,
+  signout
 }
